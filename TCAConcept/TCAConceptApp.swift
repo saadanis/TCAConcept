@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct TCAConceptApp: App {
+    
+    var defaultStartPage = UserDefaults.standard.string(forKey: "StartPage") ?? "Home"
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            switch(defaultStartPage) {
+            case "Today":
+                TodayView()
+            case "Upcoming":
+                TodayView()
+            case "Inbox":
+                TodayView()
+            default:
+                ContentView()
+            }
+   //         ContentView()
         }
     }
 }
