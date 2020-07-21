@@ -12,12 +12,12 @@
 		93581D6C24BDBE9600870CBE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93581D6B24BDBE9600870CBE /* Preview Assets.xcassets */; };
 		93581D7B24BDBFCC00870CBE /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93581D7324BDBFCB00870CBE /* CategoryView.swift */; };
 		93581D7C24BDBFCC00870CBE /* RoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93581D7424BDBFCB00870CBE /* RoutineView.swift */; };
-		93581D7D24BDBFCC00870CBE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93581D7524BDBFCB00870CBE /* ContentView.swift */; };
 		93581D7E24BDBFCC00870CBE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93581D7624BDBFCC00870CBE /* SettingsView.swift */; };
 		93581D7F24BDBFCC00870CBE /* CategoryEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93581D7724BDBFCC00870CBE /* CategoryEditView.swift */; };
 		93581D8024BDBFCC00870CBE /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93581D7824BDBFCC00870CBE /* TodayView.swift */; };
 		93581D8124BDBFCC00870CBE /* RoutineEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93581D7924BDBFCC00870CBE /* RoutineEditView.swift */; };
 		93581D8224BDBFCC00870CBE /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93581D7A24BDBFCC00870CBE /* Routine.swift */; };
+		93BDD2BE24C7B7E20038565B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BDD2BD24C7B7E20038565B /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,12 +28,12 @@
 		93581D6D24BDBE9600870CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93581D7324BDBFCB00870CBE /* CategoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		93581D7424BDBFCB00870CBE /* RoutineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutineView.swift; sourceTree = "<group>"; };
-		93581D7524BDBFCB00870CBE /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../../../Desktop/TCAConceptFiles/ContentView.swift; sourceTree = "<group>"; };
 		93581D7624BDBFCC00870CBE /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		93581D7724BDBFCC00870CBE /* CategoryEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryEditView.swift; sourceTree = "<group>"; };
 		93581D7824BDBFCC00870CBE /* TodayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		93581D7924BDBFCC00870CBE /* RoutineEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutineEditView.swift; sourceTree = "<group>"; };
 		93581D7A24BDBFCC00870CBE /* Routine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
+		93BDD2BD24C7B7E20038565B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +69,8 @@
 				93581D6424BDBE9600870CBE /* TCAConceptApp.swift */,
 				93581D7724BDBFCC00870CBE /* CategoryEditView.swift */,
 				93581D7324BDBFCB00870CBE /* CategoryView.swift */,
-				93581D7524BDBFCB00870CBE /* ContentView.swift */,
 				93581D7A24BDBFCC00870CBE /* Routine.swift */,
+				93BDD2BD24C7B7E20038565B /* ContentView.swift */,
 				93581D7924BDBFCC00870CBE /* RoutineEditView.swift */,
 				93581D7424BDBFCB00870CBE /* RoutineView.swift */,
 				93581D7624BDBFCC00870CBE /* SettingsView.swift */,
@@ -160,11 +160,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				93581D8224BDBFCC00870CBE /* Routine.swift in Sources */,
-				93581D7D24BDBFCC00870CBE /* ContentView.swift in Sources */,
 				93581D7C24BDBFCC00870CBE /* RoutineView.swift in Sources */,
 				93581D8124BDBFCC00870CBE /* RoutineEditView.swift in Sources */,
 				93581D7E24BDBFCC00870CBE /* SettingsView.swift in Sources */,
 				93581D7F24BDBFCC00870CBE /* CategoryEditView.swift in Sources */,
+				93BDD2BE24C7B7E20038565B /* ContentView.swift in Sources */,
 				93581D6524BDBE9600870CBE /* TCAConceptApp.swift in Sources */,
 				93581D8024BDBFCC00870CBE /* TodayView.swift in Sources */,
 				93581D7B24BDBFCC00870CBE /* CategoryView.swift in Sources */,

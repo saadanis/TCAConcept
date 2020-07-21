@@ -22,7 +22,7 @@ struct TCAConceptApp: App {
             case "Inbox":
                 TodayView()
             default:
-                ContentView()
+                ContentView(startPage: "")
             }
    //         ContentView()
         }
