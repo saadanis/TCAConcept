@@ -24,16 +24,10 @@ struct TodayView: View {
                 ForEach(categories.getRoutinesForToday()) { routine in
                     NavigationLink(destination: RoutineView(routine: routine, category: categories.findCategory(for: routine))) {
                         ZStack(alignment: .top) {
-                            //                        RoundedRectangle(cornerRadius: 25, style: .continuous)
-                            //                            .frame(width: UIScreen.screenWidth - 15, height: categories.getTotalTime(for: routine)==0 ? 100 : (categories.getTotalTime(for: routine)>1000 ? CGFloat(categories.getTotalTime(for: routine)/10) : 100), alignment: .center)
-                            //                            .foregroundColor(categories.getColor(for: routine))
                             ZStack {
                                 HStack(alignment: .firstTextBaseline) {
                                     VStack(spacing: 2) {
                                         Text("\(formatter.string(from: getStartTime(routine: routine)))")
-                                        //                                ForEach(1..<categories.getTotalTime(for: routine)/800) { _ in
-                                        //                                    Text(" ")
-                                        //                                }
                                         RoundedRectangle(cornerRadius: 25.0, style: .continuous)
                                             .frame(width: 3, height: CGFloat(categories.getTotalTime(for: routine)/40>12 ? categories.getTotalTime(for: routine)/40 : 12), alignment: .center)
                                             .opacity(0.5)
@@ -53,7 +47,7 @@ struct TodayView: View {
                                     //.padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                                 }
                                 .padding(.all, 10)
-                                .background(RoundedRectangle(cornerRadius: 15, style: .continuous).foregroundColor(categories.getColor(for: routine)))
+                                .background(RoundedRectangle(cornerRadius: 15, style: .continuous).foregroundColor(categories.getColor(for: routine)).opacity(0.5))
                             }
                             .padding(.horizontal, 10)
                             .padding(.vertical, 0)

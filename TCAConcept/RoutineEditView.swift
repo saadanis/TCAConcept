@@ -77,12 +77,12 @@ struct RoutineEditView: View {
         for day in repeatEvery {
             let subtitleDate = newStartTime
             let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            
+            formatter.timeStyle = .short
+
             // Notification for Routine content.
             let content = UNMutableNotificationContent()
             content.title = "\(newName)"
-            content.subtitle = "Starting routine at \(formatter.string(from: subtitleDate))."
+            content.subtitle = "Routine starts now."
             content.sound = UNNotificationSound.default
             
             var notificationDate = Calendar.current.dateComponents([.hour, .minute], from: newStartTime)
