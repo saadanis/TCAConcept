@@ -263,12 +263,15 @@ class Categories: ObservableObject {
     }
 
     func sortByTime(r1: Routine, r2: Routine) -> Bool {
+        
         let timeComponents1 = Calendar.current.dateComponents([.hour, .minute], from: r1.startTime)
         let dateSeconds1 = timeComponents1.hour! * 3600 + timeComponents1.minute! * 60
         let timeComponents2 = Calendar.current.dateComponents([.hour, .minute], from: r2.startTime)
         let dateSeconds2 = timeComponents2.hour! * 3600 + timeComponents2.minute! * 60
-        
+
         return dateSeconds1 < dateSeconds2
+        
+//        return r1.startTime < r2.startTime
     }
     
     func getColor(for routine: Routine) -> Color {
