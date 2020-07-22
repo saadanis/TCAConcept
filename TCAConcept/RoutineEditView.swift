@@ -74,11 +74,23 @@ struct RoutineEditView: View {
     }
     
     func addNotification(repeatEvery: [Int]) {
-//        for day in repeatEvery {
-//            var notificationDate = Calendar.current.dateComponents([.hour, .minute], from: newStartTime)
-//      //      notificationDate.weekday =
-////            let trigger = UNCalendarNotificationTrigger(dateMatching: notificationDate, repeats: true)
-//        }
+        for day in repeatEvery {
+            let subtitleDate = newStartTime
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            
+            // Notification for Routine content.
+            let content = UNMutableNotificationContent()
+            content.title = "\(newName)"
+            content.subtitle = "Starting routine at \(formatter.string(from: subtitleDate))."
+            content.sound = UNNotificationSound.default
+            
+            var notificationDate = Calendar.current.dateComponents([.hour, .minute], from: newStartTime)
+            notificationDate.weekday = day
+            let trigger = UNCalendarNotificationTrigger(dateMatching: notificationDate, repeats: true)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request)
+        }
     }
 }
 
