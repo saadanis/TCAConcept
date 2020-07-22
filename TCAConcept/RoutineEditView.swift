@@ -20,9 +20,9 @@ struct RoutineEditView: View {
     @State private var newName = ""
     @State private var newStartTime = Date()
     
-    let dayCases = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+    let dayCases = [2,3,4,5,6,7,1]
     
-    @State private var repeatEvery: [String] = []
+    @State private var repeatEvery: [Int] = []
     
     var body: some View {
         NavigationView {
@@ -61,6 +61,7 @@ struct RoutineEditView: View {
                     let newRoutine = Routine(name: newName, items: [], repeatEvery: repeatEvery, startTime: newStartTime)
                     categories.addRoutine(to: category, routine: newRoutine)
                 }
+                addNotification(repeatEvery: repeatEvery)
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(routine != nil ? "Update" : "Create")
@@ -71,19 +72,27 @@ struct RoutineEditView: View {
     func isDisabled() -> Bool {
         newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
+    
+    func addNotification(repeatEvery: [Int]) {
+//        for day in repeatEvery {
+//            var notificationDate = Calendar.current.dateComponents([.hour, .minute], from: newStartTime)
+//      //      notificationDate.weekday =
+////            let trigger = UNCalendarNotificationTrigger(dateMatching: notificationDate, repeats: true)
+//        }
+    }
 }
 
 struct CheckRow: View {
     
-    var item: String
+    var item: Int
     
-    @Binding var selectedList: [String]
+    @Binding var selectedList: [Int]
     
     var action: () -> Void
     
     var body: some View {
         HStack {
-            Text(item)
+            Text(intToText(item: item))
             Spacer()
             if selectedList.contains(item) {
                 Image(systemName: "checkmark")
@@ -100,6 +109,27 @@ struct CheckRow: View {
             } else {
                 selectedList.removeAll(where: {$0 == item})
             }
+        }
+    }
+    
+    func intToText(item: Int) -> String {
+        switch item {
+        case 1:
+            return "Sunday"
+        case 2:
+            return "Monday"
+        case 3:
+            return "Tueday"
+        case 4:
+            return "Wednesday"
+        case 5:
+            return "Thurday"
+        case 6:
+            return "Friday"
+        case 7:
+            return "Saturday"
+        default:
+            return "Error"
         }
     }
 }

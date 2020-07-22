@@ -34,13 +34,13 @@ struct CategoryView: View {
                             repetition(repeatEvery: routine.repeatEvery)
                                 .font(.caption)
                         }
-//                        Spacer()
-//                        Button(action: {
-//                            print("starting routine.")
-//                        }) {
-//                            Image(systemName: "play")
-//                                .foregroundColor(Categories.colorDict[category.colorName])
-//                        }
+                        //                        Spacer()
+                        //                        Button(action: {
+                        //                            print("starting routine.")
+                        //                        }) {
+                        //                            Image(systemName: "play")
+                        //                                .foregroundColor(Categories.colorDict[category.colorName])
+                        //                        }
                     }
                 }
                 .onMove { indecies, newOffset in
@@ -88,7 +88,7 @@ struct CategoryView: View {
         }
     }
     
-    func repetition(repeatEvery: [String]) -> some View {
+    func repetition(repeatEvery: [Int]) -> some View {
         //        if repeatEvery.count == 5 &&
         //            !repeatEvery.contains("Saturday") &&
         //            !repeatEvery.contains("Sunday") {
@@ -103,27 +103,27 @@ struct CategoryView: View {
         
         var str = Text("")
         
-        let dayToLetter: [String: String] = ["Monday" : "M",
-                                             "Tuesday" : "T",
-                                             "Wednesday" : "W",
-                                             "Thursday" : "T",
-                                             "Friday" : "F",
-                                             "Saturday" : "S",
-                                             "Sunday" : "S"]
+        let numToLetter: [Int: String] = [2 : "M",
+                                          3 : "T",
+                                          4 : "W",
+                                          5 : "T",
+                                          6 : "F",
+                                          7 : "S",
+                                          1 : "S"]
         
-        let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        let days = [2,3,4,5,6,7,1]
         
         for day in days {
             if repeatEvery.contains(day) {
-                str = str + Text(dayToLetter[day] ?? "")
+                str = str + Text(numToLetter[day] ?? "")
                     .foregroundColor(.primary)
                     .bold()
             } else {
-                str = str + Text(dayToLetter[day] ?? "")
+                str = str + Text(numToLetter[day] ?? "")
                     .foregroundColor(.secondary)
             }
         }
-//
+        //
         
         return str
     }

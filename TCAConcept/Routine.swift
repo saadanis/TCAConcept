@@ -25,16 +25,16 @@ struct Routine: Identifiable, Hashable, Codable {
         return total
     }
     
-    var repeatEvery: [String] = []
+    var repeatEvery: [Int] = []
     
-    init(name: String, items: [Item], repeatEvery: [String], startTime: Date) {
+    init(name: String, items: [Item], repeatEvery: [Int], startTime: Date) {
         self.name = name
         self.items = items
         self.repeatEvery = repeatEvery
         self.startTime = startTime
     }
     
-    static let example = Routine(name: "Wake Up Routine", items: Item.examples, repeatEvery: ["Monday","Tuesday"], startTime: Date())
+    static let example = Routine(name: "Wake Up Routine", items: Item.examples, repeatEvery: [2,3], startTime: Date())
     
     static func == (lhs: Routine, rhs: Routine) -> Bool {
         lhs.id == rhs.id
@@ -158,7 +158,7 @@ class Categories: ObservableObject {
         return self.categories[indexC!].routines[indexR!]
     }
     
-    func updateRoutine(category: Category, routine: Routine, newName: String, newStartTime: Date, newRepeatEvery: [String]) {
+    func updateRoutine(category: Category, routine: Routine, newName: String, newStartTime: Date, newRepeatEvery: [Int]) {
         let indexC = self.categories.firstIndex(where: {$0.id == category.id})
         let indexR = self.categories[indexC!].routines.firstIndex(where: {$0.id == routine.id})
         self.categories[indexC!].routines[indexR!].name = newName
@@ -250,10 +250,10 @@ class Categories: ObservableObject {
         formatter.timeStyle = .short
         let components = Calendar.current.dateComponents([.weekday], from: Date())
         let todayNum = components.weekday ?? 0
-        let todayString = Categories.WeekNumToString[todayNum] ?? ""
+//        let todayString = Categories.WeekNumToString[todayNum] ?? ""
         for category in categories {
             for routine in category.routines {
-                if routine.repeatEvery.contains(todayString) {
+                if routine.repeatEvery.contains(todayNum) {
                     routinesForToday.append(routine)
                 }
             }
