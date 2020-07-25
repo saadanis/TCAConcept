@@ -54,8 +54,10 @@ struct TodayView: View {
                         }
                     }
                     .foregroundColor(.primary)
+                    .padding(.bottom, 10)
                 }
             }
+          //  .padding(.all, 10)
         }
         .onAppear {
             categories.reload()

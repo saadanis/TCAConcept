@@ -61,7 +61,6 @@ struct RoutineEditView: View {
                     let newRoutine = Routine(name: newName, items: [], repeatEvery: repeatEvery, startTime: newStartTime)
                     categories.addRoutine(to: category, routine: newRoutine)
                 }
-                addNotification(repeatEvery: repeatEvery)
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(routine != nil ? "Update" : "Create")
@@ -71,26 +70,6 @@ struct RoutineEditView: View {
     
     func isDisabled() -> Bool {
         newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
-    
-    func addNotification(repeatEvery: [Int]) {
-        for day in repeatEvery {
-            let subtitleDate = newStartTime
-            let formatter = DateFormatter()
-            formatter.timeStyle = .short
-
-            // Notification for Routine content.
-            let content = UNMutableNotificationContent()
-            content.title = "\(newName)"
-            content.subtitle = "Routine starts now."
-            content.sound = UNNotificationSound.default
-            
-            var notificationDate = Calendar.current.dateComponents([.hour, .minute], from: newStartTime)
-            notificationDate.weekday = day
-            let trigger = UNCalendarNotificationTrigger(dateMatching: notificationDate, repeats: true)
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request)
-        }
     }
 }
 

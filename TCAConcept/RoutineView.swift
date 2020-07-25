@@ -37,7 +37,7 @@ struct RoutineView: View {
                 //                    }
                 //                    .foregroundColor(.red)
                 //                }
-                Section {
+           //     Section {
                     ForEachView(categories: categories, category: category, routine: routine)
                     VStack {
                         if !showingTaskAddView {
@@ -122,7 +122,7 @@ struct RoutineView: View {
                                 }
                                 .padding(.bottom, 5)
                             }
-                        }
+                        //}
                     } //1
                 }
             }
@@ -141,13 +141,14 @@ struct RoutineView: View {
                 }
             })
             Button(action: {
-
+                
             }) {
                 Image(systemName: "play")
                     .font(.title)
             }
         }
     }
+    
     
     func createItem() {
         let hours = (Int(textBindingManager.hourText) ?? 0) * 3600
@@ -166,6 +167,7 @@ struct RoutineView: View {
         showingTaskAddView = false
         isTask = true
         categories.reload()
+        categories.updateNotifications(category: category, routine: routine)
     }
     
     func isDisabled() -> Bool {
@@ -260,9 +262,11 @@ struct ForEachView: View {
         }
         .onMove { indecies, newOffset in
             categories.moveItem(from: indecies, to: newOffset, category: category, routine: routine)
+            categories.updateNotifications(category: category, routine: routine)
         }
         .onDelete { indexSet in
             categories.deleteItem(at: indexSet, category: category, routine: routine)
+            categories.updateNotifications(category: category, routine: routine)
         }
     }
     

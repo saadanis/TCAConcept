@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import UserNotifications
 
 struct Routine: Identifiable, Hashable, Codable {
     
@@ -24,8 +25,8 @@ struct Routine: Identifiable, Hashable, Codable {
         }
         return total
     }
-    
     var repeatEvery: [Int] = []
+//    var notificationUUIDs: [String] = []
     
     init(name: String, items: [Item], repeatEvery: [Int], startTime: Date) {
         self.name = name
@@ -42,7 +43,7 @@ struct Routine: Identifiable, Hashable, Codable {
 }
 
 struct Item: Identifiable, Codable, Hashable {
-    var id = UUID()
+    var id = UUID().uuidString
     var name: String
     var time: Int = 0
     var isTask: Bool = true
@@ -122,6 +123,119 @@ class Categories: ObservableObject {
         }
     }
     
+    func removeAllNotificationsForCategory(category: Category) {
+        for routine in category.routines {
+            removeAllNotificationsForRoutine(category: category, routine: routine)
+        }
+    }
+    
+    func removeAllNotificationsForRoutine(category: Category, routine: Routine) {
+        // Get all uuids for the notifications of this routine (same as the uuid of the task).
+        var uuids: [String] = []
+        
+        for item in routine.items {
+            for day in routine.items {
+                uuids.append("\(item.id)\(day)")
+            }
+        }
+    
+        // Remove all existing notifications for the routine.
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: uuids)
+        
+        print("Removed all notifications from \(routine.name)")
+    }
+    
+    func updateNotifications(category: Category, routine: Routine) {
+        
+        removeAllNotificationsForRoutine(category: category, routine: routine)
+        
+        // Add notifications again.
+        
+        for item in getRoutine(category: category, routine: routine).items {
+            // Create content for the notification.
+            let content = UNMutableNotificationContent()
+            content.title = "\(item.name)"
+            content.subtitle = "\(getItemIndex(category: category, routine: routine, item: item) == 0 ? "\(routine.name) has started" : "in \(routine.name)")"
+            content.sound = UNNotificationSound.default
+            
+            // Get notification time.
+            let startDate = getStartTime(index: getItemIndex(category: category, routine: routine, item: item), category: category, routine: routine)
+            
+            var notificationDate = Calendar.current.dateComponents([.hour, .minute], from: startDate)
+            
+            // Use days to add notifications for the specific days.
+            for day in getRoutine(category: category, routine: routine).repeatEvery {
+                notificationDate.weekday = day
+                let trigger = UNCalendarNotificationTrigger(dateMatching: notificationDate, repeats: true)
+                let request = UNNotificationRequest(identifier: "\(item.id)\(day)", content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request)
+                print("Notification added for \(day) in \(item.name).")
+            }
+        }
+    }
+    
+    func updateAllNotifications() {
+        
+        // Remove literally all notifications.
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        print("Removed all pending notifications.")
+        
+        for category in categories {
+            for routine in category.routines {
+                for item in routine.items {
+                    print(":)")
+                    // Create content for the notification.
+                    let content = UNMutableNotificationContent()
+                    content.title = "\(item.name)"
+                    content.subtitle = "\(getItemIndex(category: category, routine: routine, item: item) == 0 ? "\(routine.name) has started" : "in \(routine.name)")"
+                    content.sound = UNNotificationSound.default
+                    
+                    // Get notification time.
+                    let startDate = getStartTime(index: getItemIndex(category: category, routine: routine, item: item), category: category, routine: routine)
+                    
+                    var notificationDate = Calendar.current.dateComponents([.hour, .minute], from: startDate)
+                    
+                    // Use days to add notifications for the specific days.
+                    for day in getRoutine(category: category, routine: routine).repeatEvery {
+                        notificationDate.weekday = day
+                        let trigger = UNCalendarNotificationTrigger(dateMatching: notificationDate, repeats: true)
+                        let request = UNNotificationRequest(identifier: "\(item.id)\(day)", content: content, trigger: trigger)
+                        UNUserNotificationCenter.current().add(request)
+                        print("notification added.")
+                    }
+                }
+            }
+        }
+    }
+    
+    func checkEqualityInRoutine(category: Category, routine: Routine) -> Bool {
+        let inRoutine = getRoutine(category: category, routine: routine)
+        print("is \(inRoutine.name) eqto \(routine.name)?")
+        if routine.name != inRoutine.name {
+            return false
+        }
+        if routine.repeatEvery != inRoutine.repeatEvery {
+            return false
+        }
+        return true
+    }
+    
+    func getStartTime(index: Int, category: Category, routine: Routine) -> Date {
+        if index==0 {
+            return getRoutine(category: category, routine: routine).startTime
+        } else {
+            return Date(timeInterval: 0, since: getEndTime(index: index-1, category: category, routine: routine))
+        }
+    }
+    
+    func getEndTime(index: Int, category: Category, routine: Routine) -> Date {
+        if index == 0 {
+            return Date(timeInterval: Double(getRoutine(category: category, routine: routine).items[index].time), since: getRoutine(category: category, routine: routine).startTime)
+        } else {
+            return Date(timeInterval: Double(getRoutine(category: category, routine: routine).items[index].time), since: getStartTime(index: index, category: category, routine: routine))
+        }
+    }
+    
     func addCategory(_ category: Category) {
         self.categories.append(category)
         objectWillChange.send()
@@ -167,6 +281,7 @@ class Categories: ObservableObject {
         print("updated routine.")
         objectWillChange.send()
         save()
+        updateNotifications(category: category, routine: routine)
     }
     
     func addItem(category: Category, routine: Routine, item: Item) {
@@ -175,6 +290,7 @@ class Categories: ObservableObject {
             let indexR = self.categories[indexC].routines.firstIndex(where: {$0.id == routine.id})
             if let indexR = indexR {
                 self.categories[indexC].routines[indexR].items.append(item)
+//                self.categories[indexC].routines[indexR].notificationUUIDs.append(item.id)
             }
         }
         print("created item.")
@@ -192,6 +308,7 @@ class Categories: ObservableObject {
         categories.remove(atOffsets: offsets)
         objectWillChange.send()
         save()
+        updateAllNotifications()
     }
     
     func moveRoutine(from source: IndexSet, to destination: Int, category: Category) {
@@ -206,6 +323,7 @@ class Categories: ObservableObject {
         self.categories[index!].routines.remove(atOffsets: offsets)
         objectWillChange.send()
         save()
+        updateAllNotifications()
     }
     
     func moveItem(from source: IndexSet, to destination: Int, category: Category, routine: Routine) {

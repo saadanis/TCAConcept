@@ -66,7 +66,25 @@ struct CategoryView: View {
         }
         .listStyle(GroupedListStyle())
         .onAppear {
-            categories.reload()
+//            for routine in category.routines {
+//                if routine != categories.getRoutine(category: category, routine: routine) {
+//                    categories.reload()
+//                    print("reloading CategoryView().")
+//                    break
+//                }
+//            }
+      //      categories.reload()
+            print("checking for reloading.")
+            for routine in category.routines {
+                print("checking routine.")
+                if !categories.checkEqualityInRoutine(category: category, routine: routine) {
+                    print("reloading category.")
+                    categories.reload()
+                    break
+                }
+                print("nothing has changed.")
+            }
+           // categories.reload()
         }
         .navigationBarTitle(Text(categories.getCategory(category: category).name))
         .navigationBarItems(trailing:
@@ -86,6 +104,7 @@ struct CategoryView: View {
             CategoryEditView(category: category)
                 .environmentObject(categories)
         }
+        .accentColor(Categories.colorDict[category.colorName])
     }
     
     func repetition(repeatEvery: [Int]) -> some View {

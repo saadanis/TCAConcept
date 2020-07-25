@@ -10,6 +10,8 @@ import SwiftUI
 
 struct SettingsView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     @State private var defaultSelection = UserDefaults.standard.string(forKey: "StartPage") ?? "Home"
     @State private var categories = Categories()
     
@@ -51,12 +53,13 @@ struct SettingsView: View {
             .navigationBarTitle(Text("Settings"))
             .navigationBarItems(leading: Button(action: {
                 // Cancel.
-                
+                presentationMode.wrappedValue.dismiss()
             }) {
                 Text("Cancel")
             }, trailing: Button(action: {
                 // Save.
                 UserDefaults.standard.set(self.defaultSelection, forKey: "StartPage")
+                presentationMode.wrappedValue.dismiss()
             }) {
                 Text("Save")
             })

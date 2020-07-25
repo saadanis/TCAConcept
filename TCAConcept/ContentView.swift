@@ -55,7 +55,7 @@ struct ContentView: View {
                 }
             }
             .onAppear {
-                categories.reload()
+                //categories.reload()
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("TCAConcept"))
