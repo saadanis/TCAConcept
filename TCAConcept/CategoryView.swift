@@ -14,7 +14,9 @@ struct CategoryView: View {
     
     @State var showingAddRoutineSheet = false
     
-    @ObservedObject var categories = Categories()
+    @EnvironmentObject var categories: Categories
+    
+    //@ObservedObject var categories = Categories()
     
     @State var showingCategoryEditView = false
     
@@ -28,7 +30,8 @@ struct CategoryView: View {
             //            }
             Section {
                 ForEach(categories.getCategory(category: category).routines) { routine in
-                    NavigationLink(destination: RoutineView(routine: routine, category: category)) {
+                    NavigationLink(destination: RoutineView(routine: routine, category: category)
+                                    .environmentObject(categories)) {
                         VStack(alignment: .leading) {
                             Text(routine.name)
                             repetition(repeatEvery: routine.repeatEvery)
@@ -47,6 +50,7 @@ struct CategoryView: View {
                     categories.moveRoutine(from: indecies, to: newOffset, category: category)
                 }
                 .onDelete { indexSet in
+                    print("deleting routine.")
                     categories.deleteRoutine(at: indexSet, category: category)
                 }
                 
@@ -74,16 +78,16 @@ struct CategoryView: View {
 //                }
 //            }
       //      categories.reload()
-            print("checking for reloading.")
-            for routine in category.routines {
-                print("checking routine.")
-                if !categories.checkEqualityInRoutine(category: category, routine: routine) {
-                    print("reloading category.")
-                    categories.reload()
-                    break
-                }
-                print("nothing has changed.")
-            }
+//            print("checking for reloading.")
+//            for routine in category.routines {
+//                print("checking routine.")
+//                if !categories.checkEqualityInRoutine(category: category, routine: routine) {
+//                    print("reloading category.")
+//                    categories.reload()
+//                    break
+//                }
+//                print("nothing has changed.")
+//            }
            // categories.reload()
         }
         .navigationBarTitle(Text(categories.getCategory(category: category).name))

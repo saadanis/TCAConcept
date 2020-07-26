@@ -31,7 +31,7 @@ struct ContentView: View {
                 Section(header: Text("Categories")) {
                     ForEach(self.categories.categories) { category in
                         if category.name != "Inbox" {
-                            NavigationLink(destination: CategoryView(category: category)) {
+                            NavigationLink(destination: CategoryView(category: category).environmentObject(categories)) {
                                 Image(systemName: category.iconName)
                                     .foregroundColor(Categories.colorDict[category.colorName])
                                 Text(category.name)
@@ -114,7 +114,7 @@ struct QuickLook: View {
             //                    Text("Inbox")
             //                }
             //            }
-            NavigationLink(destination: TodayView(), isActive: $todayViewIsActive) {
+            NavigationLink(destination: TodayView().environmentObject(categories), isActive: $todayViewIsActive) {
                 HStack {
                     Image(systemName: "deskclock")
                         .foregroundColor(.pink)

@@ -23,7 +23,9 @@ struct RoutineView: View {
     
     @State var isTask = true
     
-    @ObservedObject var categories = Categories()
+    
+    @EnvironmentObject var categories: Categories
+    //@ObservedObject var categories = Categories()
     @ObservedObject var textBindingManager = TextBindingManager(limit: 2)
     
     var body: some View {
@@ -38,7 +40,9 @@ struct RoutineView: View {
                 //                    .foregroundColor(.red)
                 //                }
            //     Section {
-                    ForEachView(categories: categories, category: category, routine: routine)
+                if !categories.routineExists(category: category, routine: routine) {
+                ForEachView(category: category, routine: routine).environmentObject(categories)
+                }
                     VStack {
                         if !showingTaskAddView {
                             VStack {
@@ -131,7 +135,8 @@ struct RoutineView: View {
                 RoutineEditView(category: category, routine: routine)
                     .environmentObject(categories)
             }
-            .navigationBarTitle(Text(categories.getRoutine(category: category, routine: routine).name))
+//            .navigationBarTitle(Text(categories.getRoutine(category: category, routine: routine).name))
+            .navigationBarTitle(Text(routine.name))
             .navigationBarItems(trailing: HStack {
                 EditButton()
                 Button(action: {
@@ -206,7 +211,9 @@ class TextBindingManager: ObservableObject {
 
 struct ForEachView: View {
     
-    @ObservedObject var categories: Categories
+    @EnvironmentObject var categories: Categories
+    
+    //@ObservedObject var categories: Categories
     
     @State var category: Category
     

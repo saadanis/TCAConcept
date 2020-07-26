@@ -10,7 +10,8 @@ import SwiftUI
 
 struct TodayView: View {
     
-    @ObservedObject var categories = Categories()
+    @EnvironmentObject var categories: Categories
+    //@ObservedObject var categories = Categories()
     
     var formatter: DateFormatter {
         let formatter = DateFormatter()
@@ -22,7 +23,7 @@ struct TodayView: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .center) {
                 ForEach(categories.getRoutinesForToday()) { routine in
-                    NavigationLink(destination: RoutineView(routine: routine, category: categories.findCategory(for: routine))) {
+                    NavigationLink(destination: RoutineView(routine: routine, category: categories.findCategory(for: routine)).environmentObject(categories)) {
                         ZStack(alignment: .top) {
                             ZStack {
                                 HStack(alignment: .firstTextBaseline) {

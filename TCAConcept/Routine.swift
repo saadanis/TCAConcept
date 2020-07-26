@@ -181,9 +181,11 @@ class Categories: ObservableObject {
         print("Removed all pending notifications.")
         
         for category in categories {
+            print("entering first loop.")
             for routine in category.routines {
+                print("entering second loop.")
                 for item in routine.items {
-                    print(":)")
+                    print("entering third loop.")
                     // Create content for the notification.
                     let content = UNMutableNotificationContent()
                     content.title = "\(item.name)"
@@ -272,6 +274,10 @@ class Categories: ObservableObject {
         return self.categories[indexC!].routines[indexR!]
     }
     
+    func routineExists(category: Category, routine: Routine) -> Bool {
+        return false
+    }
+    
     func updateRoutine(category: Category, routine: Routine, newName: String, newStartTime: Date, newRepeatEvery: [Int]) {
         let indexC = self.categories.firstIndex(where: {$0.id == category.id})
         let indexR = self.categories[indexC!].routines.firstIndex(where: {$0.id == routine.id})
@@ -323,6 +329,7 @@ class Categories: ObservableObject {
         self.categories[index!].routines.remove(atOffsets: offsets)
         objectWillChange.send()
         save()
+        print("routine deleted.")
         updateAllNotifications()
     }
     
