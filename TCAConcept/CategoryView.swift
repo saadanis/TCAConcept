@@ -29,29 +29,31 @@ struct CategoryView: View {
             //                }
             //            }
             Section {
-                ForEach(categories.getCategory(category: category).routines) { routine in
-                    NavigationLink(destination: RoutineView(routine: routine, category: category)
-                                    .environmentObject(categories)) {
-                        VStack(alignment: .leading) {
-                            Text(routine.name)
-                            repetition(repeatEvery: routine.repeatEvery)
-                                .font(.caption)
+                if categories.categoryExists(category: category) {
+                    ForEach(categories.getCategory(category: category).routines) { routine in
+                        NavigationLink(destination: RoutineView(routine: routine, category: category)
+                                        .environmentObject(categories)) {
+                            VStack(alignment: .leading) {
+                                Text(routine.name)
+                                repetition(repeatEvery: routine.repeatEvery)
+                                    .font(.caption)
+                            }
+                            //                        Spacer()
+                            //                        Button(action: {
+                            //                            print("starting routine.")
+                            //                        }) {
+                            //                            Image(systemName: "play")
+                            //                                .foregroundColor(Categories.colorDict[category.colorName])
+                            //                        }
                         }
-                        //                        Spacer()
-                        //                        Button(action: {
-                        //                            print("starting routine.")
-                        //                        }) {
-                        //                            Image(systemName: "play")
-                        //                                .foregroundColor(Categories.colorDict[category.colorName])
-                        //                        }
                     }
-                }
-                .onMove { indecies, newOffset in
-                    categories.moveRoutine(from: indecies, to: newOffset, category: category)
-                }
-                .onDelete { indexSet in
-                    print("deleting routine.")
-                    categories.deleteRoutine(at: indexSet, category: category)
+                    .onMove { indecies, newOffset in
+                        categories.moveRoutine(from: indecies, to: newOffset, category: category)
+                    }
+                    .onDelete { indexSet in
+                        print("deleting routine.")
+                        categories.deleteRoutine(at: indexSet, category: category)
+                    }
                 }
                 
                 Button(action: {
@@ -70,27 +72,27 @@ struct CategoryView: View {
         }
         .listStyle(GroupedListStyle())
         .onAppear {
-//            for routine in category.routines {
-//                if routine != categories.getRoutine(category: category, routine: routine) {
-//                    categories.reload()
-//                    print("reloading CategoryView().")
-//                    break
-//                }
-//            }
-      //      categories.reload()
-//            print("checking for reloading.")
-//            for routine in category.routines {
-//                print("checking routine.")
-//                if !categories.checkEqualityInRoutine(category: category, routine: routine) {
-//                    print("reloading category.")
-//                    categories.reload()
-//                    break
-//                }
-//                print("nothing has changed.")
-//            }
-           // categories.reload()
+            //            for routine in category.routines {
+            //                if routine != categories.getRoutine(category: category, routine: routine) {
+            //                    categories.reload()
+            //                    print("reloading CategoryView().")
+            //                    break
+            //                }
+            //            }
+            //      categories.reload()
+            //            print("checking for reloading.")
+            //            for routine in category.routines {
+            //                print("checking routine.")
+            //                if !categories.checkEqualityInRoutine(category: category, routine: routine) {
+            //                    print("reloading category.")
+            //                    categories.reload()
+            //                    break
+            //                }
+            //                print("nothing has changed.")
+            //            }
+            // categories.reload()
         }
-        .navigationBarTitle(Text(categories.getCategory(category: category).name))
+        .navigationBarTitle(Text(categories.categoryExists(category: category) ? categories.getCategory(category: category).name : ""))
         .navigationBarItems(trailing:
                                 HStack {
                                     //                                    Button(action: {}){

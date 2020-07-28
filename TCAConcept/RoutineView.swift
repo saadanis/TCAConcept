@@ -40,7 +40,7 @@ struct RoutineView: View {
                 //                    .foregroundColor(.red)
                 //                }
            //     Section {
-                if !categories.routineExists(category: category, routine: routine) {
+                if categories.routineExists(category: category, routine: routine) {
                 ForEachView(category: category, routine: routine).environmentObject(categories)
                 }
                     VStack {
@@ -135,8 +135,8 @@ struct RoutineView: View {
                 RoutineEditView(category: category, routine: routine)
                     .environmentObject(categories)
             }
-//            .navigationBarTitle(Text(categories.getRoutine(category: category, routine: routine).name))
-            .navigationBarTitle(Text(routine.name))
+            .navigationBarTitle(Text(categories.routineExists(category: category, routine: routine) ? categories.getRoutine(category: category, routine: routine).name : ""))
+//            .navigationBarTitle(Text(routine.name))
             .navigationBarItems(trailing: HStack {
                 EditButton()
                 Button(action: {
@@ -226,7 +226,7 @@ struct ForEachView: View {
     }
     
     var body: some View {
-        
+    //    if(categories.routineExists(category: category, routine: routine)) {
         ForEach(categories.getRoutine(category: category, routine: routine).items) { item in
             HStack {
                 if item.isTask {
@@ -275,6 +275,9 @@ struct ForEachView: View {
             categories.deleteItem(at: indexSet, category: category, routine: routine)
             categories.updateNotifications(category: category, routine: routine)
         }
+//        } else {
+//            Text("")
+//        }
     }
     
     func getStartTime(index: Int) -> Date {

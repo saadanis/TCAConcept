@@ -258,6 +258,11 @@ class Categories: ObservableObject {
         return self.categories[index!]
     }
     
+    func categoryExists(category: Category) -> Bool {
+        let index = self.categories.firstIndex(where: {$0.id == category.id})
+        return index != nil
+    }
+    
     func updateCategory(category: Category, newName: String, newIconName: String, newColorName: String) {
         let index = self.categories.firstIndex(where: {$0.id == category.id})
         self.categories[index!].name = newName
@@ -271,11 +276,17 @@ class Categories: ObservableObject {
     func getRoutine(category: Category, routine: Routine) -> Routine {
         let indexC = self.categories.firstIndex(where: {$0.id == category.id})
         let indexR = self.categories[indexC!].routines.firstIndex(where: {$0.id == routine.id})
-        return self.categories[indexC!].routines[indexR!]
+  //      if indexR != nil {
+            return self.categories[indexC!].routines[indexR!]
+//        } else {
+//            return Routine(name: "", items: [], repeatEvery: [], startTime: Date())
+//        }
     }
     
     func routineExists(category: Category, routine: Routine) -> Bool {
-        return false
+        let indexC = self.categories.firstIndex(where: {$0.id == category.id})
+        let indexR = self.categories[indexC!].routines.firstIndex(where: {$0.id == routine.id})
+        return indexR != nil
     }
     
     func updateRoutine(category: Category, routine: Routine, newName: String, newStartTime: Date, newRepeatEvery: [Int]) {
